@@ -26,10 +26,15 @@
 
 export EDITOR=emacsclient
 export VISUAL=emacsclient
-export PATH="$HOME/bin:${PATH}"
-export GUIX_PROFILE="$HOME/.guix-profile" # i use this in some scripts
+export PATH="$HOME/bin:$PATH"
 export EXTRA_PROFILES="$HOME/profiles"
 export CURL_CA_BUNDLE="$SSL_CERT_FILE" # For R install.packages()
+
+# WIP: If nss-certs isn't in the system or user profile, $SSL_CERT_FILE won't
+# be defined at login time, so we have to defer its expansion. For example, a
+# profile built around R could have nss-certs included. It may be better to
+# define CURL_CA_BUNDLE there somehow, or in R project folders.
+# declare -n CURL_CA_BUNDLE="$SSL_CERT_FILE" 
 
 # Source extra profiles made by Guix manifests.
 for x in gtk large misc qt r superuser; do
@@ -38,6 +43,8 @@ for x in gtk large misc qt r superuser; do
 		. "$EXTRA_PROFILES/$x/$x/etc/profile"
 	fi
 done
+
+export GUIX_PROFILE="$HOME/.guix-profile" # I use this in some scripts
 
 # On TTY 1, just start X.
 if [ ! "$DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
