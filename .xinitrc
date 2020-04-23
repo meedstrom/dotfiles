@@ -1,14 +1,22 @@
 #!/bin/sh
 
+xset r rate 200 45
+xset -b
+
+# Config the touchpad. Sometimes the touchpad has number 13, sometimes 14.
+# See id:b6e15fa4-a205-42b5-a925-1bde12640369
 xinput set-prop 13 "Synaptics Tap Action" 0 0 0 0 1 3 0
 xinput set-prop 14 "Synaptics Tap Action" 0 0 0 0 1 3 0
 xinput set-prop 13 "Synaptics Scrolling Distance" -91 -91
 xinput set-prop 14 "Synaptics Scrolling Distance" -91 -91
-setxkbmap -layout 'us,se' -option 'grp:menu_toggle'
-xset r rate 200 45
-xset -b
 
-picom -b
+# Use caps:super to function with a Model M-like keyboard missing Win keys.
+# For more options see ~/.guix-profile/share/X11/xkb/rules/base.lst
+setxkbmap -layout 'us,se' -option 'grp:menu_toggle' -option 'caps:super'
+
+picom --daemon
+feh --bg-fill ~/media/wallpapers/earth_horizon-1920x1080.jpg
+unclutter &
 #arbtt-capture &
 #cmst --minimized --wait-time 4 &
 #dunst -font "Monospace 13" -startup_notification &
@@ -41,3 +49,4 @@ export _JAVA_AWT_WM_NONREPARENTING=1 # Tell Java apps the WM is non-reparenting
 # fi
 
 exec emacs
+# exec tdm --xstart

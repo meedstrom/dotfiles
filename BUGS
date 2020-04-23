@@ -1,5 +1,8 @@
 Bugs to potentially report.
 
+- Context: counsel-rg
+- Error: error code 2 when there is a root-owned file without read perms for others. Rg from a shell works fine.
+
 - Context: melpa.org website
 - Error: Package list does not load with Decentraleyes (unknown script from cdnjs.cloudflare cannot be substituted)
 

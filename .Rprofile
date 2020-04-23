@@ -1,5 +1,5 @@
 R_LIBS <- "~/R/"
-options(browser = '/usr/bin/env icecat "$@"'
+options(browser = 'echo "$@" > /dev/null'  #'/usr/bin/env icecat "$@"'
       , scipen = 2
       , digits = 3
       , mc.cores = parallel::detectCores()
