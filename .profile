@@ -28,15 +28,17 @@
 export EDITOR=emacsclient
 export VISUAL=emacsclient
 export PATH="$HOME/bin:${PATH}"
-export GUIX_EXTRA_PROFILES="$HOME/profiles"
+export EXTRA_PROFILES="$HOME/profiles"
 
-for x in misc r large superuser gtk qt; do
-	if [ -f "$GUIX_EXTRA_PROFILES/$x/$x/etc/profile" ]; then
-		GUIX_PROFILE="$GUIX_EXTRA_PROFILES/$x/$x"
-		. "$GUIX_EXTRA_PROFILES/$x/$x/etc/profile"
+# Profiles made by Guix manifests
+for x in gtk large misc qt r superuser; do
+	if [ -f "$EXTRA_PROFILES/$x/$x/etc/profile" ]; then
+		GUIX_PROFILE="$EXTRA_PROFILES/$x/$x"
+		. "$EXTRA_PROFILES/$x/$x/etc/profile"
 	fi
 done
 
+# is this necessary?
 export GUIX_PROFILE="$HOME/.guix-profile"
 . "$HOME/.guix-profile/etc/profile"
 
