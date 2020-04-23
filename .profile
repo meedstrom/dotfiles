@@ -1,7 +1,7 @@
 #!/bin/sh
 # Profile for Bourne-compatible shells (bash(1), zsh(1), dash(1), ...). For
 # fish(1), it is probably least effort to start in Bourne and exec fish, which
-# will inherit the environment, or make the fish startup run this thing.
+# will inherit the environment.
 
 # EXPLANATION: This is a so-called profile for login shells, which means it is
 # only executed when logging in at a TTY and, for some display managers, at the
@@ -30,25 +30,18 @@ export VISUAL=emacsclient
 export PATH="$HOME/bin:${PATH}"
 export GUIX_EXTRA_PROFILES="$HOME/profiles"
 
-for x in "$GUIX_EXTRA_PROFILES"/*/{misc,r,large,superuser,gtk,qt}; do
-	if test -f "$x/etc/profile"; then
-		GUIX_PROFILE="$x"
-		source "$GUIX_PROFILE"/etc/profile
+for x in misc r large superuser gtk qt; do
+	if [ -f "$GUIX_EXTRA_PROFILES/$x/$x/etc/profile" ]; then
+		GUIX_PROFILE="$GUIX_EXTRA_PROFILES/$x/$x"
+		. "$GUIX_EXTRA_PROFILES/$x/$x/etc/profile"
 	fi
 done
-# for i in "$GUIX_EXTRA_PROFILES"/{misc,r,large,superuser}; do
-# 	EXTRA_PROFILE="$i/$(basename $i)"
-# 	if [ -f "$EXTRA_PROFILE/etc/profile" ] ; then
-# 		GUIX_PROFILE="$EXTRA_PROFILE"
-# 		. "$GUIX_PROFILE"/etc/profile
-# 	fi
-# 	unset EXTRA_PROFILE
-# done
 
 export GUIX_PROFILE="$HOME/.guix-profile"
-source "$HOME/.guix-profile/etc/profile"
+. "$HOME/.guix-profile/etc/profile"
+
 # export GUIX_LOCPATH="$GUIX_PROFILE/lib/locale"
-export CURL_CA_BUNDLE="$SSL_CERT_FILE" # for R
+# export CURL_CA_BUNDLE="$SSL_CERT_FILE" # for R
 
 # Attempt to fix locale errors
 #export PATH="$HOME/.config/guix/current/bin:$HOME/.guix-profile/bin:$PATH"
@@ -66,3 +59,13 @@ export CURL_CA_BUNDLE="$SSL_CERT_FILE" # for R
 # export GIT_SSL_CAINFO="$SSL_CERT_FILE"
 # # As another example, R requires the ‘CURL_CA_BUNDLE’ environment variable to
 # # point to a certificate bundle, so you would have to run something like this:
+
+# On TTY 1, just start X
+if [ ! "$DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
+        # tdm # if using tdm
+        exec "$HOME/startx.sh"
+fi
+
+# On other TTYs, switch to the Fish shell
+# FIXME: Emacs M-x shell in a TTY will also try to use Fish
+command -v fish >/dev/null 2>&1 && [ -z "$DISPLAY" ] && exec fish

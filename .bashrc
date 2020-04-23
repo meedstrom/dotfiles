@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source ~/.bash_profile
+#source ~/.bash_profile
 # source ~/home/bashrc_time_prompt && exit
 
 # Custom prompt
