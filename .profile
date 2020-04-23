@@ -19,55 +19,33 @@
 # should contain source("~/.profile").
 
 # TIP: if you need complex logic, consider moving it to .bash_profile or
-# .zprofile so you can use more powerful language features.
+# .zprofile so you can use more powerful language features. But if you do, you
+# must avoid exec invocations here, as I believe login(1) sources this first.
 
 # ------------------------------------------------------------------------------
-
-# export LC_TIME="en_UK.utf8"
 
 export EDITOR=emacsclient
 export VISUAL=emacsclient
 export PATH="$HOME/bin:${PATH}"
+export GUIX_PROFILE="$HOME/.guix-profile" # i use this in some scripts
 export EXTRA_PROFILES="$HOME/profiles"
+export CURL_CA_BUNDLE="$SSL_CERT_FILE" # For R install.packages()
 
-# Profiles made by Guix manifests
+# Source extra profiles made by Guix manifests.
 for x in gtk large misc qt r superuser; do
 	if [ -f "$EXTRA_PROFILES/$x/$x/etc/profile" ]; then
-		GUIX_PROFILE="$EXTRA_PROFILES/$x/$x"
+		GUIX_PROFILE="$EXTRA_PROFILES/$x/$x" # must be set when sourcing
 		. "$EXTRA_PROFILES/$x/$x/etc/profile"
 	fi
 done
 
-# is this necessary?
-export GUIX_PROFILE="$HOME/.guix-profile"
-. "$HOME/.guix-profile/etc/profile"
-
-# export GUIX_LOCPATH="$GUIX_PROFILE/lib/locale"
-# export CURL_CA_BUNDLE="$SSL_CERT_FILE" # for R
-
-# Attempt to fix locale errors
-#export PATH="$HOME/.config/guix/current/bin:$HOME/.guix-profile/bin:$PATH"
-#export INFOPATH="$HOME/.config/guix/current/share/info:$HOME/.guix-profile/share/info:$INFOPATH"
-#export GUILE_LOAD_PATH="${GUIX_PROFILE}/share/guile/site/2.2${GUILE_LOAD_PATH:+:}$GUILE_LOAD_PATH"
-#export GUILE_LOAD_COMPILED_PATH="${GUIX_PROFILE}/lib/guile/2.2/site-ccache${GUILE_LOAD_COMPILED_PATH:+:}$GUILE_LOAD_COMPILED_PATH"
-#export R_LIBS_SITE="/home/me/.guix-profile/site-library/${R_LIBS_SITE:+:}$R_LIBS_SITE"
-#export PATH="/home/me/.config/guix/current/bin${PATH:+:}$PATH"
-#export LC_ALL="en_US.UTF-8"
-
-# Unprivileged users can install certificates.
-# guix install nss-certs
-# export SSL_CERT_DIR="$HOME/.guix-profile/etc/ssl/certs"
-# export SSL_CERT_FILE="$HOME/.guix-profile/etc/ssl/certs/ca-certificates.crt"
-# export GIT_SSL_CAINFO="$SSL_CERT_FILE"
-# # As another example, R requires the ‘CURL_CA_BUNDLE’ environment variable to
-# # point to a certificate bundle, so you would have to run something like this:
-
-# On TTY 1, just start X
+# On TTY 1, just start X.
 if [ ! "$DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
-        # tdm # if using tdm
+        # exec tdm # start display manager
         exec "$HOME/startx.sh"
 fi
 
-# On other TTYs, switch to the Fish shell
-# FIXME: Emacs M-x shell in a TTY will also try to use Fish
-command -v fish >/dev/null 2>&1 && [ -z "$DISPLAY" ] && exec fish
+# On other TTYs, switch to the Fish shell.
+test "$(command -v fish)" && [ -z "$DISPLAY" ] && exec fish
+# For reference, the below is more performant as it doesn't spawn a subshell.
+# command -v fish >/dev/null 2>&1 && [ -z "$DISPLAY" ] && exec fish
