@@ -1,0 +1,2 @@
+#!/bin/sh
+sudo -E guix system reconfigure "/home/kept/Guix system conf/latitude-bb.scm"

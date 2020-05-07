@@ -16,7 +16,7 @@ setxkbmap -layout 'us,se' -option 'grp:menu_toggle' -option 'caps:super'
 
 picom --daemon
 feh --bg-fill ~/media/wallpapers/earth_horizon-1920x1080.jpg
-unclutter &
+# unclutter -idle 1 &
 
 # Here I would exec a premade session.
 # exec startlxqt

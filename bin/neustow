@@ -1,0 +1,23 @@
+#!/bin/sh
+# Wrapper for stow: before running actual stow, populate the target with
+# directories specified in stow-skeleton so as to prevent folding for
+# those directories. See info stow for what folding is.
+
+set -e
+
+# untested that it sets .. correctly
+while getopts ":t:" option; do
+case ${option} in
+        t) target=$OPTARG ;;        
+        :) target='..' ;;
+        *) ;;
+esac
+done
+
+for arg; do
+    if [ -f "$arg/stow-skeleton" ]; then
+        xargs -a "$arg/stow-skeleton" -I{} mkdir -pv $target/{}
+    fi
+done
+
+stow --ignore="stow-skeleton" "$@"

@@ -1,0 +1,3 @@
+#!/bin/sh
+umanifest large
+sudo -E guix system reconfigure ~/guix/root/system.scm

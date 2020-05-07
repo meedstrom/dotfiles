@@ -1,0 +1,3 @@
+#!/bin/sh
+jobs=`expr $(nproc) + 1`
+guix build -KM $jobs -L "/home/kept/Guix channel/" "$@"

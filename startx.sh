@@ -1,1 +1,0 @@
-../code/shell/startx.sh

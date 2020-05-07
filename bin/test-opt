@@ -1,0 +1,10 @@
+#!/bin/sh
+
+var=$(getopt 't:')
+
+echo "var is $var"
+
+# works
+getopts 't:' _option && varb=$OPTARG || echo getopts returned fail
+
+echo $varb
