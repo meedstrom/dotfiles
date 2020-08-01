@@ -13,22 +13,16 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-# This turned into an exercise in POSIX sh. I am keeping it this way because it
-# is reference material to me, but next time I will just use Scheme or Fish.
+# #############################################################################
 
 # shellcheck source=/home/kept/Dotfiles/.profile
-
-# The above must be a hard path for now. I would like it to be ~/.profile.
-# Ticket at https://github.com/koalaman/shellcheck/issues/507.
 
 # Alternative to realpath() that won't resolve to a /gnu/store item because it
 # doesn't traverse symlinks, just uses pwd(1).
 fullpath() { echo "$(cd "$(dirname "$1")" && pwd)/$(basename "$1")" ; }
 
-# If given no argument, source the current profile (hopefully ~/.guix-profile).
+# If given no argument, source the current profile (always ~/.guix-profile I think).
+[ ! "$GUIX_PROFILE" ] && GUIX_PROFILE="$HOME/.guix-profile"
 [ $# -eq 0 ] && . "$GUIX_PROFILE/etc/profile" &&\
         echo "Sourced $GUIX_PROFILE" && exit
 
@@ -38,7 +32,14 @@ fullpath() { echo "$(cd "$(dirname "$1")" && pwd)/$(basename "$1")" ; }
 
 # Otherwise, look in EXTRA_PROFILES, sourcing the given names. If given the
 # argument "all", source them all.
-[ "$1" = "all" ] && ARGS=$(ls "$EXTRA_PROFILES") || ARGS="$*"
+# NOTE: grep -Eo doesn't appear to be POSIX, but it's in busybox and BSD.
+if [ "$1" = "active" ]; then
+        ARGS=$(echo "$ACTIVE_PROFILES" | grep -Eo "[^[:space:]]+")
+elif [ "$1" = "all" ]; then
+        ARGS=$(ls "$EXTRA_PROFILES")
+else
+        ARGS="$*"
+fi
 for PROFILE in $ARGS; do
         GUIX_PROFILE="$EXTRA_PROFILES/$PROFILE/$PROFILE"
         [ -f "$GUIX_PROFILE/etc/profile" ] && . "$GUIX_PROFILE/etc/profile"

@@ -42,24 +42,14 @@ trysource() {
 
 print_help() {
         echo
-        echo "  Usage examples: if you have a profile named 'gtk':"
+        echo "  Usage examples: if you have a profile named gtk:"
         echo "    on gtk install icecat"
         echo "    on gtk upgrade"
         echo "    on gtk package --rollback"
-        echo "    on gtk sync       (reflect \$EXTRA_PROFILES/gtk.scm)"
-        echo
-        echo "  The special commands 'sync' and 'source' are available in addition to most Guix commands."
-        echo
-        echo "  There are pseudo-profiles 'all', 'active' and the omitted:"
-        echo "    on all sync       (build \$EXTRA_PROFILES/*/ from \$EXTRA_PROFILES/*.scm)"
-        echo "    on all source     (source all of \$EXTRA_PROFILES)"
-        echo "    on active source  (source all of \$ALWAYS_ACTIVE_PROFILES)"
-        echo "    on source         (source ~/.guix-profile)"
-        echo
-        echo "EXTRA_PROFILES must contain one .scm and one directory for"
-        echo "each profile."
-        echo "ALWAYS_ACTIVE_PROFILES must be a space-separated string naming"
-        echo "the profiles, a subset of those in EXTRA_PROFILES."
+        echo "    on gtk sync        (reflect \$EXTRA_PROFILES/gtk.scm)"
+        echo "    on all sync        (reflect all manifests)"
+        echo "    on active source   (source \$ACTIVE_PROFILES)"
+        echo "    on source          (source ~/.guix-profile)"
         echo
 }
 
@@ -67,12 +57,12 @@ print_help() {
 # Interpret the parameters
 
 if [ $# -eq 0 ]; then
-        print_help
-        exit
+            print_help
+            exit
 elif [ $# -eq 1 ]; then
-        profile="$HOME/.guix-profile"
-        command="$1"
-        shift
+            profile="$HOME/.guix-profile"
+            command="$1"
+            shift
 else
         profile="$1"
         shift
@@ -80,12 +70,15 @@ else
         shift
 fi
 
-
-# Operate on main user profile, or a directory named on the command line
+# Operate on default user profile or a provided directory
 
 if [ "$profile" = "$HOME/.guix-profile" ] || [ -d "$profile" ]; then
         if [ "$command" = "source" ]; then
                 trysource "$(fullpath "$profile")"
+        # elif [ "$command" = "sync" ]; then
+        #             guix package \
+        #                     -p "$EXTRA_PROFILES/$profile/$profile" \
+        #                     -m "$EXTRA_PROFILES/$profile.scm"
         else
                 guix "$command" -p "$profile"
         fi
@@ -93,26 +86,25 @@ if [ "$profile" = "$HOME/.guix-profile" ] || [ -d "$profile" ]; then
 fi
 
 
-# Operate on named profile(s), looking in $EXTRA_PROFILES
+# Operate on profile(s) in $EXTRA_PROFILES
 
 if [ "$profile" = "active" ]; then
-        ARGS=$(echo "$ALWAYS_ACTIVE_PROFILES" | grep -Eo "[^[:space:]]+")
+        ARGS=$(echo "$ACTIVE_PROFILES" | grep -Eo "[^[:space:]]+")
 elif [ "$profile" = "all" ]; then
-        ARGS=$(ls "$EXTRA_PROFILES" | grep -v ".scm")
+        ARGS=$(ls "$EXTRA_PROFILES")
 else
-        ARGS="$profile"
+        ARGS="$profile"  # Single profile
 # TODO: Take more profiles on the command line until a guix subcommand is recognized
-# else ${$*#package|install|upgrade|remove|describe}
-# ${$*#weather|build|environment|refresh}  # these take no -p but still a -m
+# else ${$*#package|install|upgrade}
 fi
 
 if [ "$command" = "source" ]; then
         for PROFILE in $ARGS; do
-                trysource "EXTRA_PROFILES/$PROFILE/$PROFILE"
+                trysource "$EXTRA_PROFILES/$PROFILE/$PROFILE"
         done
 elif [ "$command" = "sync" ]; then
         for PROFILE in $ARGS; do
-                guix package \
+            guix package \
                     -p "$EXTRA_PROFILES/$PROFILE/$PROFILE" \
                     -m "$EXTRA_PROFILES/$PROFILE.scm"
         done

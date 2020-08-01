@@ -1,1 +1,1 @@
-../Emacs conf
+emacs-doom
