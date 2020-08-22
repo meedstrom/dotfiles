@@ -1,7 +1,7 @@
 #!/bin/sh
 # Wrapper for stow: before running actual stow, populate the target with
-# directories specified in the stow-skeleton file so as to prevent folding for
-# those directories. See info:stow for what folding is.
+# directories specified in the "stow-skeleton" file so as to prevent folding for
+# those directories. See info stow for what folding is.
 
 set -e
 

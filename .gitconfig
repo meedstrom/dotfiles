@@ -1,5 +1,5 @@
 [user]
-	email = medstrom@no.email
-	name = medstrom
+	email = meedstrom@teknik.io
+	name = meedstrom
 [http]
 	sslCAinfo = /etc/ssl/certs/ca-certificates.crt

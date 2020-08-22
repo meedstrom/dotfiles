@@ -1,10 +1,2 @@
 
-WISHLIST:
-- I want to symlink ~/Downloads to /tmp.
-  - Stow refuses absolute paths: https://github.com/aspiers/stow/issues/51
-  - Workaround: symlink to =../../../../../../../../../../../../../../tmp= :)
-
-
-- Selective folding, discussion on https://github.com/aspiers/stow/issues/29
-  - e.g. link the whole .emacs.d (fold) & only certain files in .config (unfold)
-  - Stow author's own workaround: https://github.com/aspiers/ANTIFOLD
+Stuff to be stowed into =$HOME=. I use =bin/neustow= for this, to take care of selective folding, see https://github.com/aspiers/stow/issues/29.

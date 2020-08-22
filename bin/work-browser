@@ -1,0 +1,2 @@
+#!/bin/sh
+icecat --profile "$HOME/.mozilla/icecat/work-browser" "$@"
