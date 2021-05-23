@@ -8,6 +8,6 @@
 
 PROFILE="$EXTRA_PROFILES/x11/x11"
 
-"$PROFILE/bin/xinit" -- "$PROFILE/bin/Xorg" :0 vt1 -keeptty \
+"$PROFILE/bin/xinit" -- "$PROFILE/bin/Xorg" :0 vt2 -keeptty \
                      -configdir "$PROFILE/share/X11/xorg.conf.d" \
                      -modulepath "$PROFILE/lib/xorg/modules"
