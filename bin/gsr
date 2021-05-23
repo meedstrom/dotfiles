@@ -1,9 +1,0 @@
-#!/bin/sh
-main() {
-  CONF="/home/kept/Guix system conf/latitude-bb.scm"
-  guix system build "$CONF"
-  sudo -E guix system reconfigure "$CONF"
-  exit #?
-}
-
-main

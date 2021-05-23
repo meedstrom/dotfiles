@@ -1,3 +1,0 @@
-#!/bin/sh
-echo "Making a clip out of $1"
-ffmpeg -ss $2 -to $3 -i "$1" -c copy "clip-$1"

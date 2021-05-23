@@ -1,2 +1,0 @@
-#!/bin/sh
-mpv --force-window --gapless-audio --mute=no --keep-open "$@"

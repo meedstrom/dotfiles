@@ -1,5 +1,0 @@
-#!/bin/sh
-##!/usr/bin/env fish
-newplace=~/keep/`basename "$1"`
-mv "$1" "$newplace"
-cd ~ && ln -s "$newplace"

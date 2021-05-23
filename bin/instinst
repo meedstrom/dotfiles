@@ -1,3 +1,0 @@
-#!/bin/sh
-jobs=`expr $(nproc) + 1`
-guix package -M $jobs -L "/home/kept/Guix channel/" -i "$@"

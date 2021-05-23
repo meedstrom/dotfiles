@@ -1,5 +1,0 @@
-#!/bin/sh
-
-for f in $@ ; do
-    test -L "$f" && echo "Trashing $f" && trash "$f"
-done

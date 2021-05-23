@@ -1,6 +1,0 @@
-#!/bin/sh
-for PROFILE in "$@"; do
-    guix package \
-         -p "$EXTRA_PROFILES/$PROFILE/$PROFILE" \
-         -m "$EXTRA_PROFILES/$PROFILE.scm"
-done

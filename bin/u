@@ -1,3 +1,0 @@
-#!/bin/sh
-umanifest $(echo "$ACTIVE_PROFILES" | grep -Eo "[^[:space:]]+") &&\
-    guix upgrade
