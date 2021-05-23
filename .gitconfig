@@ -1,5 +1,10 @@
 [user]
 	email = meedstrom@teknik.io
-	name = meedstrom
+	user = meedstrom
+	name = Martin Edström
 [http]
 	sslCAinfo = /etc/ssl/certs/ca-certificates.crt
+[credential]
+	helper = store
+[github]
+	user = meedstrom

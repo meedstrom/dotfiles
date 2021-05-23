@@ -16,11 +16,11 @@ xinput set-prop 14 "Synaptics Scrolling Distance" -91 -91
 #setxkbmap -layout 'us,se' -option 'grp:menu_toggle' -option 'caps:super'
 setxkbmap -layout 'us,se' -option 'grp:shifts_toggle' -option 'caps:menu'
 
-# Random wallpaper
-# find /home/kept/Media/Wallpapers/ -type f | grep 'jpg$\|png$' | shuf -n 1 | xargs feh --conversion-timeout 1 --bg-fill
-# feh --bg-fill /home/kept/Media/Wallpapers/earth_horizon-1920x1080.jpg
-# feh --bg-fill --randomize --recursive --conversion-timeout 3 /home/kept/Media/Wallpapers-brightened/
-feh --bg-fill --recursive --randomize /home/kept/Media/Wallpapers-brightened/
+# Random wallpaper (bright. pre-converted)
+# feh --bg-fill --recursive --randomize /home/kept/Media/Wallpapers-brightened/ &
+
+# Random wallpaper (--conversion-timeout enables SVGs)
+feh --bg-fill --recursive --randomize --conversion-timeout 3 /home/kept/Media/Wallpapers/ &
 
 picom --daemon
 unclutter -idle 1 &
@@ -45,6 +45,7 @@ export _JAVA_AWT_WM_NONREPARENTING=1 # Tell Java apps the WM is non-reparenting
 # exec emacsclient -c # need emacs-no-x-toolkit-next
 #exec "$EXTRA_PROFILES/emacs-w-x11/emacs-w-x11/bin/emacs" --no-site-file --no-site-lisp # For Doom
 #exec emacs --debug-init
+exec dbus-launch --exit-with-session emacs -f exwm-enable
 exec emacs -f exwm-enable
 exec emacs --eval="(exwm-enable)"
 doom env && exec emacs --no-site-file --no-site-lisp
