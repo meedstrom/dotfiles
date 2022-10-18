@@ -1,4 +1,4 @@
 
 Stuff to be stowed into =$HOME=.
 
-I use =bin/neustow= for this, to take care of selective folding, see https://github.com/aspiers/stow/issues/29.
+I use a GNU Stow wrapper (=bin/neustow=) to take care of selective folding, see https://github.com/aspiers/stow/issues/29.

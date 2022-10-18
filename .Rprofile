@@ -7,7 +7,7 @@ if (grepl("guix|^/gnu|^/nix", R.home()))
 options(
   mc.cores = parallel::detectCores()
 , repos = c(CRAN = "https://cloud.r-project.org/")
-, warn = 2 # https://www.r-bloggers.com/2012/05/a-warning-about-warning/
+#, warn = 2 # https://www.r-bloggers.com/2012/05/a-warning-about-warning/
 , scipen = 2
 , digits = 3
 , max.print = 200
@@ -23,9 +23,9 @@ options(
          Language =  'en')
 )
 
-if (interactive()) {
-  suppressMessages(require(devtools))
-}
+## if (interactive()) {
+##   try(suppressMessages(require(devtools)))
+## }
 
 # called on R exit
 ## .Last <- function()
