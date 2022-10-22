@@ -3,7 +3,7 @@
  ("default" . ((user-emacs-directory . "/home/kept/emacs/conf-tty")))
 
  ("doom" . ((user-emacs-directory . "~/doom-emacs/")
-	    ;; NOTE: doom's envvars already set in my .profile
+            ;; NOTE: doom's envvars already set in my .profile
             ))
   
  ("spacemacs" . ((user-emacs-directory . "~/spacemacs")

@@ -97,7 +97,7 @@ export NIX_SSL_CERT_FILE="$SSL_CERT_FILE"
 # [ "$XDG_VTNR" -eq 2 ] && exec gnome-shell --wayland
 
 # On other TTYs, start emacs.
-[ "$(pgrep -fc ttyemacs)" -eq 0 ] && emacs --bg-daemon="ttyemacs" -Q
+[ "$(pgrep -fc ttyemacs)" -eq 0 ] && emacs --bg-daemon="ttyemacs"
 exec emacsclient -t -s "ttyemacs" -e "(shell \"*shell vt$XDG_VTNR*\")"
 
 ###############################################################################
